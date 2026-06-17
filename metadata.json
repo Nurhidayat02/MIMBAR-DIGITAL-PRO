@@ -1,0 +1,6 @@
+{
+  "name": "Mimbar Digital Pro",
+  "description": "Platform pembuat naskah Khutbah, Ceramah, Tausyiah, Sambutan, dan MC dengan dukungan Bahasa Multilingual, validasi rukun khutbah, dalil shahih bermadzhab, dan teleprompter otomatis.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
