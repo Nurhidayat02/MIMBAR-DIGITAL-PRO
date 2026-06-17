@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import SpeechGeneratorForm from "./components/SpeechGeneratorForm";
 import SpeechViewer from "./components/SpeechViewer";
 import TeleprompterView from "./components/TeleprompterView";
 import { SpeechRequest, SpeechResult } from "./types";
 import { SAMPLE_SPEECH } from "./data/sampleSpeech";
-import brandLogo from "./assets/images/mimbar_digital_logo_1780744098096.png";
+const brandLogo = "/mimbar_logo_512.png";
 import { 
   Sparkles, 
   BookOpen, 
@@ -23,7 +23,8 @@ import {
   ShieldAlert,
   GraduationCap,
   Sun,
-  Moon
+  Moon,
+  Download
 } from "lucide-react";
 
 export default function App() {
@@ -32,6 +33,47 @@ export default function App() {
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
   const [teleprompterActive, setTeleprompterActive] = useState(false);
   const [teleprompterText, setTeleprompterText] = useState("");
+  
+  // PWA installation states and triggers
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [showInstallBtn, setShowInstallBtn] = useState(false);
+  const [showPwaModal, setShowPwaModal] = useState(false);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowInstallBtn(true);
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt as any);
+
+    if (window.matchMedia("(display-mode: standalone)").matches) {
+      setShowInstallBtn(false);
+    }
+
+    const handleAppInstalled = () => {
+      setDeferredPrompt(null);
+      setShowInstallBtn(false);
+      console.log("Mimbar Digital Pro PWA installed!");
+    };
+
+    window.addEventListener("appinstalled", handleAppInstalled);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt as any);
+      window.removeEventListener("appinstalled", handleAppInstalled);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    console.log(`User install outcome: ${outcome}`);
+    setDeferredPrompt(null);
+    setShowInstallBtn(false);
+  };
   
   // Theme state: default to dark emerald-green theme (true), but allows user preference
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
@@ -102,8 +144,22 @@ export default function App() {
       {/* Primary Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
         
-        {/* Floating/Absolute Premium Theme Switcher Pin */}
-        <div className="absolute top-4 right-4 sm:right-8 z-30 no-print">
+        {/* Floating/Absolute Premium Theme Switcher & Install Pin */}
+        <div className="absolute top-4 right-4 sm:right-8 z-30 no-print flex items-center gap-2">
+          {/* Always show Install/PWA button to guide user, but with dynamic look if prompt is ready */}
+          <button
+            onClick={showInstallBtn ? handleInstallClick : () => setShowPwaModal(true)}
+            className={`px-3 py-1.5 rounded-full border transition-all duration-300 flex items-center gap-1.5 cursor-pointer text-xs font-semibold shadow-md ${
+              isDarkMode
+                ? "bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20 active:bg-amber-500/30 shadow-amber-950/20"
+                : "bg-emerald-500/10 border-emerald-500/30 text-emerald-800 hover:bg-emerald-500/20 active:bg-emerald-500/30 shadow-emerald-150"
+            }`}
+            title="Instal Aplikasi Mimbar Digital Pro"
+          >
+            <Download className="h-4 w-4 animate-bounce" />
+            <span className="hidden xs:inline">Instal Aplikasi</span>
+          </button>
+
           <button
             onClick={toggleTheme}
             className={`p-2.5 rounded-full border transition-all duration-300 flex items-center justify-center cursor-pointer shadow-md ${
@@ -328,6 +384,86 @@ export default function App() {
           </p>
         </div>
       </footer>
+
+      {/* PWA Installation Guidance Modal */}
+      {showPwaModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm no-print animate-fade-in">
+          <div className={`relative w-full max-w-md rounded-[28px] border p-6 shadow-2xl transition-all duration-300 ${
+            isDarkMode 
+              ? "bg-[#01261d] border-amber-500/30 text-emerald-100 shadow-emerald-950/50" 
+              : "bg-white border-emerald-250 text-emerald-950 shadow-emerald-900/10"
+          }`}>
+            {/* Elegant Header and Close button */}
+            <div className="flex justify-between items-start mb-4">
+              <h3 className="text-lg font-serif font-bold text-amber-500 flex items-center gap-2">
+                🕌 Pasang Aplikasi
+              </h3>
+              <button 
+                onClick={() => setShowPwaModal(false)}
+                className={`p-1.5 rounded-full hover:bg-emerald-500/10 transition cursor-pointer ${isDarkMode ? "text-emerald-400" : "text-emerald-800"}`}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* App Icon and Description */}
+            <div className="flex items-center gap-4 mb-5 p-3 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
+              <img 
+                src="/mimbar_logo_192.png?v=4" 
+                alt="Mimbar Digital Pro Logo" 
+                className="h-14 w-14 rounded-[14px] border border-amber-500/30 object-cover"
+              />
+              <div>
+                <h4 className="font-bold text-sm font-serif">MIMBAR DIGITAL PRO</h4>
+                <p className="text-xs text-emerald-500 font-medium">Khutbah &amp; Orasi Multilingual</p>
+              </div>
+            </div>
+
+            {/* Guide Steps */}
+            <div className="space-y-4 text-xs leading-relaxed mb-6">
+              <p className={isDarkMode ? "text-emerald-300" : "text-emerald-800"}>
+                Untuk pemasangan terbaik dan ikon aplikasi premium muncul di layar utama:
+              </p>
+              
+              <div className="space-y-3">
+                <div className="flex gap-2.5">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-[10px] font-bold text-amber-500 border border-amber-500/30">1</span>
+                  <div>
+                    <span className="font-bold text-emerald-400">Android (Google Chrome/Opera/Samsung):</span>
+                    <p className="opacity-80 mt-0.5">Ketuk tombol menu <strong className="text-amber-500 font-bold">titik tiga (⋮)</strong> di pojok kanan atas layar, lalu pilih <strong className="font-bold text-amber-500">"Instal aplikasi"</strong> atau <strong className="font-bold text-amber-500">"Tambahkan ke Layar Utama"</strong>.</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-2.5">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-[10px] font-bold text-amber-500 border border-amber-500/30">2</span>
+                  <div>
+                    <span className="font-bold text-emerald-400">Apple iOS (Safari - iPhone/iPad):</span>
+                    <p className="opacity-80 mt-0.5">Ketuk tombol <strong className="text-amber-500 font-bold">"Bagikan" (Share)</strong> di bagian bawah layar Safari, lalu gulir ke bawah dan ketuk <strong className="font-bold text-amber-500">"Tambahkan ke Layar Utama" (Add to Home Screen)</strong>.</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-2.5">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-amber-500/10 text-[10px] font-bold text-amber-500 border border-amber-500/30">3</span>
+                  <div>
+                    <span className="font-bold text-emerald-400">Desktop PC (Chrome/Edge/Opera):</span>
+                    <p className="opacity-80 mt-0.5">Klik tombol <strong className="text-amber-500 font-bold">Instal / Pasang</strong> di sisi kanan bilah alamat (URL bar) browser Anda atau ketuk tombol "Instal Aplikasi" di kanan atas.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Action buttons */}
+            <div className="flex justify-end col-span-2">
+              <button
+                onClick={() => setShowPwaModal(false)}
+                className="py-2 px-5 rounded-full bg-amber-500 hover:bg-amber-600 font-bold text-xs text-[#01231a] transition-colors shadow-lg cursor-pointer"
+              >
+                Dipahami &amp; Tutup
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
     </div>
   );
