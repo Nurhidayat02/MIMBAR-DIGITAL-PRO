@@ -93,9 +93,11 @@ export default function App() {
   return (
     <div className={`min-h-screen overflow-x-hidden ${isDarkMode ? "bg-[#01231a] text-emerald-100" : "bg-[#f4faf7] text-emerald-950"} selection:bg-amber-500 selection:text-emerald-950 font-sans antialiased relative transition-colors duration-300`}>
       
-      {/* Visual background decorations in elegant green/gold gradient blobs */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-emerald-600/10 to-amber-500/5 rounded-full filter blur-[100px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-emerald-900/15 to-emerald-500/5 rounded-full filter blur-[120px] pointer-events-none" />
+      {/* Visual background decorations in elegant green/gold gradient blobs clipped */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-emerald-600/10 to-amber-500/5 rounded-full filter blur-[100px]" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-gradient-to-tr from-emerald-900/15 to-emerald-500/5 rounded-full filter blur-[120px]" />
+      </div>
 
       {/* Primary Container */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 relative z-10">
