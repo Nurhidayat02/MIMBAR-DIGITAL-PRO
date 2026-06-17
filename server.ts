@@ -10,6 +10,18 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json({ limit: "10mb" }));
+
+// Prevent browser/CDN caching of PWA config files so updates propagate instantly
+app.use((req, res, next) => {
+  const url = req.path;
+  if (url === "/sw.js" || url.endsWith(".json")) {
+    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
+    res.setHeader("Expires", "0");
+    res.setHeader("Pragma", "no-cache");
+  }
+  next();
+});
+
 app.use(express.static("public"));
 
 // Lazy Initialize Gemini Client to avoid module-load crashes if key is initially missing

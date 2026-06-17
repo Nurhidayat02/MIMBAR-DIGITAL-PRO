@@ -9,7 +9,7 @@ import SpeechViewer from "./components/SpeechViewer";
 import TeleprompterView from "./components/TeleprompterView";
 import { SpeechRequest, SpeechResult } from "./types";
 import { SAMPLE_SPEECH } from "./data/sampleSpeech";
-const brandLogo = "/mimbar_logo_512.png";
+import brandLogo from "./assets/images/mimbar_digital_logo_1780744098096.png";
 import { 
   Sparkles, 
   BookOpen, 
@@ -409,7 +409,7 @@ export default function App() {
             {/* App Icon and Description */}
             <div className="flex items-center gap-4 mb-5 p-3 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
               <img 
-                src="/mimbar_logo_192.png?v=4" 
+                src={brandLogo} 
                 alt="Mimbar Digital Pro Logo" 
                 className="h-14 w-14 rounded-[14px] border border-amber-500/30 object-cover"
               />

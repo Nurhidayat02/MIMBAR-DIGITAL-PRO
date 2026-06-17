@@ -6,7 +6,7 @@ import './index.css';
 // Register PWA service worker for clean home screen / desktop installation
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker.register('/sw.js?v=5')
       .then((reg) => {
         console.log('Mimbar Digital Pro Service Worker registered with scope: ', reg.scope);
       })
