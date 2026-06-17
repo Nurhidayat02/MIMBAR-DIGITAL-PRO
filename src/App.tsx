@@ -9,7 +9,7 @@ import SpeechViewer from "./components/SpeechViewer";
 import TeleprompterView from "./components/TeleprompterView";
 import { SpeechRequest, SpeechResult } from "./types";
 import { SAMPLE_SPEECH } from "./data/sampleSpeech";
-const brandLogo = "/brand_logo.png";
+import brandLogo from "./assets/images/mimbar_digital_logo_1780744098096.png";
 import { 
   Sparkles, 
   BookOpen, 
