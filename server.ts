@@ -10,6 +10,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(express.json({ limit: "10mb" }));
+app.use(express.static("public"));
 
 // Lazy Initialize Gemini Client to avoid module-load crashes if key is initially missing
 let aiInstance: GoogleGenAI | null = null;

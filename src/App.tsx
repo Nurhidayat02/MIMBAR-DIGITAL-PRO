@@ -91,7 +91,7 @@ export default function App() {
   };
 
   return (
-    <div className={`min-h-screen ${isDarkMode ? "bg-[#01231a] text-emerald-100" : "bg-[#f4faf7] text-emerald-950"} selection:bg-amber-500 selection:text-emerald-950 font-sans antialiased relative transition-colors duration-300`}>
+    <div className={`min-h-screen overflow-x-hidden ${isDarkMode ? "bg-[#01231a] text-emerald-100" : "bg-[#f4faf7] text-emerald-950"} selection:bg-amber-500 selection:text-emerald-950 font-sans antialiased relative transition-colors duration-300`}>
       
       {/* Visual background decorations in elegant green/gold gradient blobs */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br from-emerald-600/10 to-amber-500/5 rounded-full filter blur-[100px] pointer-events-none" />
