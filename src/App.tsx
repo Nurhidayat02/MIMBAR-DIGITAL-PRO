@@ -68,23 +68,36 @@ export default function App() {
 
   const handleInstallClick = async () => {
     if (!deferredPrompt) return;
-    deferredPrompt.prompt();
-    const { outcome } = await deferredPrompt.userChoice;
-    console.log(`User install outcome: ${outcome}`);
-    setDeferredPrompt(null);
-    setShowInstallBtn(false);
+    try {
+      deferredPrompt.prompt();
+      const { outcome } = await deferredPrompt.userChoice;
+      console.log(`User install outcome: ${outcome}`);
+    } catch (installErr) {
+      console.warn("PWA installation prompt error:", installErr);
+    } finally {
+      setDeferredPrompt(null);
+      setShowInstallBtn(false);
+    }
   };
   
   // Theme state: default to dark emerald-green theme (true), but allows user preference
   const [isDarkMode, setIsDarkMode] = useState<boolean>(() => {
-    const saved = localStorage.getItem("orator_theme");
-    return saved === null ? true : saved === "dark"; 
+    try {
+      const saved = localStorage.getItem("orator_theme");
+      return saved === null ? true : saved === "dark"; 
+    } catch (e) {
+      return true;
+    }
   });
 
   const toggleTheme = () => {
     setIsDarkMode(prev => {
       const next = !prev;
-      localStorage.setItem("orator_theme", next ? "dark" : "light");
+      try {
+        localStorage.setItem("orator_theme", next ? "dark" : "light");
+      } catch (e) {
+        console.warn("localStorage is not available/blocked:", e);
+      }
       return next;
     });
   };
@@ -104,7 +117,7 @@ export default function App() {
       });
 
       if (!response.ok) {
-        const errorData = await response.json();
+        const errorData = await response.json().catch(() => ({}));
         throw new Error(errorData.error || "Gagal menyusun naskah dari server.");
       }
 
@@ -112,7 +125,13 @@ export default function App() {
       setSpeech(data);
     } catch (err: any) {
       console.error(err);
-      setErrorMsg(err.message || "Koneksi terputus atau terjadi kesalahan sistem.");
+      let errMsg = err.message || "Koneksi terputus atau terjadi kesalahan sistem.";
+      if (errMsg.includes("SyntaxError") || errMsg.includes("JSON") || errMsg.includes("Unexpected token") || errMsg.includes("unterminated")) {
+        errMsg = "Gagal memproses data naskah (Format tidak valid). Hal ini biasanya terjadi karena naskah yang dihasilkan terlalu panjang dan terpotong karena limitasi token. Tips: Coba perkecil target durasi (misalnya ke 7-10 menit) atau berikan detail topik yang lebih spesifik.";
+      } else if (errMsg.includes("Failed to fetch") || errMsg.includes("fetch")) {
+        errMsg = "Koneksi internet terputus atau respon tertunda dari server (Failed to fetch). Silakan periksa jaringan Anda atau coba sesuaikan target durasi lebih pendek agar server memproses lebih ringan.";
+      }
+      setErrorMsg(errMsg);
     } finally {
       setIsLoading(false);
     }

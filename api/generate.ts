@@ -1,35 +1,12 @@
-import express from "express";
-import path from "path";
-import dotenv from "dotenv";
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 import { GoogleGenAI, Type } from "@google/genai";
-import { createServer as createViteServer } from "vite";
 
-dotenv.config();
-
-const app = express();
-const PORT = 3000;
-
-app.use(express.json({ limit: "10mb" }));
-
-// Prevent browser/CDN caching of PWA config files so updates propagate instantly
-app.use((req, res, next) => {
-  const url = req.path;
-  if (url === "/sw.js" || url.endsWith(".json")) {
-    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
-    res.setHeader("Expires", "0");
-    res.setHeader("Pragma", "no-cache");
-  }
-  next();
-});
-
-app.use(express.static("public"));
-
-// Lazy Initialize Gemini Client to avoid module-load crashes if key is initially missing
+// Lazy Initialize Gemini Client to avoid load-time crashes
 let aiInstance: GoogleGenAI | null = null;
 function getGeminiClient(): GoogleGenAI {
   const key = process.env.GEMINI_API_KEY;
   if (!key) {
-    throw new Error("GEMINI_API_KEY is not configured on the server. Please check Settings > Secrets.");
+    throw new Error("GEMINI_API_KEY is not configured on the server. Please check Settings > Secrets or Vercel Environment Variables.");
   }
   if (!aiInstance) {
     aiInstance = new GoogleGenAI({
@@ -44,15 +21,31 @@ function getGeminiClient(): GoogleGenAI {
   return aiInstance;
 }
 
-// API Routes
-app.post("/api/generate", async (req, res) => {
+export default async function handler(req: VercelRequest, res: VercelResponse) {
+  // CORS configuration
+  res.setHeader("Access-Control-Allow-Credentials", "true");
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET,OPTIONS,PATCH,DELETE,POST,PUT");
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version"
+  );
+
+  if (req.method === "OPTIONS") {
+    return res.status(200).end();
+  }
+
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
   try {
     const { category, language, tone, topic, occasion, audience, durationMin, details } = req.body;
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
       return res.status(500).json({
-        error: "GEMINI_API_KEY is not configured on the server. Please check Settings > Secrets.",
+        error: "GEMINI_API_KEY is not configured on the server. Please check Settings > Secrets or Vercel Environment Variables.",
       });
     }
 
@@ -149,7 +142,7 @@ Format output harus selalu JSON valid sesuai schema yang diminta. Agar naskah ti
       let attempts = 3;
       for (let attempt = 1; attempt <= attempts; attempt++) {
         try {
-          console.log(`[Gemini API] Menghubungi model ${modelName} (Percobaan ${attempt}/${attempts})...`);
+          console.log(`[Vercel Serverless] Menghubungi model ${modelName} (Percobaan ${attempt}/${attempts})...`);
           response = await getGeminiClient().models.generateContent({
             model: modelName,
             contents: prompt,
@@ -206,12 +199,12 @@ Format output harus selalu JSON valid sesuai schema yang diminta. Agar naskah ti
           });
           
           if (response && response.text) {
-            console.log(`[Gemini API] Sukses generate menggunakan model ${modelName} pada percobaan ke-${attempt}`);
+            console.log(`[Vercel Serverless] Sukses generate menggunakan model ${modelName} pada percobaan ke-${attempt}`);
             break; 
           }
         } catch (err: any) {
           lastError = err;
-          console.warn(`[Gemini API] Model ${modelName} percobaan ke-${attempt} gagal:`, err?.message || err);
+          console.warn(`[Vercel Serverless] Model ${modelName} percobaan ke-${attempt} gagal:`, err?.message || err);
           
           if (err?.status && err.status >= 400 && err.status < 500 && err.status !== 429) {
             break; 
@@ -239,40 +232,15 @@ Format output harus selalu JSON valid sesuai schema yang diminta. Agar naskah ti
 
     try {
       const parsedData = JSON.parse(resultText.trim());
-      return res.json(parsedData);
+      return res.status(200).json(parsedData);
     } catch {
       // Fallback in case Gemini returned JSON in block quotes
       const cleanJson = resultText.replace(/```json/g, "").replace(/```/g, "").trim();
       const parsedData = JSON.parse(cleanJson);
-      return res.json(parsedData);
+      return res.status(200).json(parsedData);
     }
   } catch (error: any) {
-    console.error("Error generating speech content:", error);
-    res.status(500).json({ error: error?.message || "Internal Server Error" });
+    console.error("Error generating speech content (Vercel Serverless):", error);
+    return res.status(500).json({ error: error?.message || "Internal Server Error" });
   }
-});
-
-// Serve static assets in production, otherwise hook Vite middleware
-if (process.env.NODE_ENV !== "production") {
-  createViteServer({
-    server: { middlewareMode: true },
-    appType: "spa",
-  }).then((vite) => {
-    app.use(vite.middlewares);
-    
-    app.listen(PORT, "0.0.0.0", () => {
-      console.log(`Development server active on http://localhost:${PORT}`);
-    });
-  });
-} else {
-  const distPath = path.join(process.cwd(), "dist");
-  app.use(express.static(distPath));
-  
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(distPath, "index.html"));
-  });
-
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Production server running on port ${PORT}`);
-  });
 }

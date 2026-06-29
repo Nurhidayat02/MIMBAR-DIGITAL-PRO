@@ -4,16 +4,24 @@ import App from './App.tsx';
 import './index.css';
 
 // Register PWA service worker for clean home screen / desktop installation
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js?v=5')
-      .then((reg) => {
-        console.log('Mimbar Digital Pro Service Worker registered with scope: ', reg.scope);
-      })
-      .catch((err) => {
-        console.error('Service worker registration failed: ', err);
-      });
-  });
+try {
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      try {
+        navigator.serviceWorker.register('/sw.js?v=7')
+          .then((reg) => {
+            console.log('Mimbar Digital Pro Service Worker registered with scope: ', reg.scope);
+          })
+          .catch((err) => {
+            console.warn('Service worker registration failed: ', err);
+          });
+      } catch (innerErr) {
+        console.warn('Service worker registration synchronous exception:', innerErr);
+      }
+    });
+  }
+} catch (outerErr) {
+  console.warn('Service worker check synchronous exception:', outerErr);
 }
 
 createRoot(document.getElementById('root')!).render(
