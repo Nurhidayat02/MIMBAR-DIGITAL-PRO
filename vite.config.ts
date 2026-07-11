@@ -4,9 +4,9 @@ import path from 'path';
 import fs from 'fs';
 import {defineConfig} from 'vite';
 
-// Automatically overwrite all legacy logos with the beautiful new premium extra-glowing logo
+// Automatically overwrite all legacy logos with the beautiful, refined elegant logo
 try {
-  const sourcePath = path.resolve(__dirname, 'src/assets/images/mimbar_glowing_logo_1783783072334.jpg');
+  const sourcePath = path.resolve(__dirname, 'src/assets/images/mimnbarpro_elegant_logo_1783783533774.jpg');
   if (fs.existsSync(sourcePath)) {
     const targets = [
       'public/mimbar_logo_32.png',
@@ -28,15 +28,16 @@ try {
       'public/favicon.ico',
       'src/assets/images/mimbar_digital_logo_1780744098096.png',
       'src/assets/images/mimbar_digital_logo_1782743876619.jpg',
+      'src/assets/images/mimbar_glowing_logo_1783783072334.jpg',
       
-      // Cache-busting _v10 versions to force OS/browser refreshing instantly
-      'public/mimbar_logo_32_v10.png',
-      'public/mimbar_pwa_logo_32_v10.png',
-      'public/mimbar_logo_192_v10.png',
-      'public/mimbar_pwa_icon_192_v10.png',
-      'public/mimbar_logo_512_v10.png',
-      'public/mimbar_pwa_icon_512_v10.png',
-      'public/apple-touch-icon_v10.png'
+      // Cache-busting _v11 versions to force OS/browser refreshing instantly
+      'public/mimbar_logo_32_v11.png',
+      'public/mimbar_pwa_logo_32_v11.png',
+      'public/mimbar_logo_192_v11.png',
+      'public/mimbar_pwa_icon_192_v11.png',
+      'public/mimbar_logo_512_v11.png',
+      'public/mimbar_pwa_icon_512_v11.png',
+      'public/apple-touch-icon_v11.png'
     ];
     for (const t of targets) {
       const dest = path.resolve(__dirname, t);
