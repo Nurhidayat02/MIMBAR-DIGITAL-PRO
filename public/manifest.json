@@ -10,25 +10,25 @@
   "orientation": "any",
   "icons": [
     {
-      "src": "/mimbar_logo_192_v12.png",
+      "src": "/mimbar_logo_192_v8.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any"
     },
     {
-      "src": "/mimbar_logo_192_v12.png",
+      "src": "/mimbar_logo_192_v8.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "maskable"
     },
     {
-      "src": "/mimbar_logo_512_v12.png",
+      "src": "/mimbar_logo_512_v8.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any"
     },
     {
-      "src": "/mimbar_logo_512_v12.png",
+      "src": "/mimbar_logo_512_v8.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "maskable"

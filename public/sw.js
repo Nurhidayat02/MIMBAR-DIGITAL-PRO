@@ -1,11 +1,11 @@
-const CACHE_NAME = 'mimbar-digital-pro-v12';
+const CACHE_NAME = 'mimbar-digital-pro-v9';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/mimbar_logo_32_v12.png',
-  '/mimbar_logo_192_v12.png',
-  '/mimbar_logo_512_v12.png'
+  '/mimbar_logo_32_v8.png',
+  '/mimbar_logo_192_v8.png',
+  '/mimbar_logo_512_v8.png'
 ];
 
 self.addEventListener('install', (event) => {
