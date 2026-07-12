@@ -55,7 +55,7 @@ export default function App() {
     const handleAppInstalled = () => {
       setDeferredPrompt(null);
       setShowInstallBtn(false);
-      console.log("Mimbar Digital Pro PWA installed!");
+      console.log("mimbar pro PWA installed!");
     };
 
     window.addEventListener("appinstalled", handleAppInstalled);
@@ -173,7 +173,7 @@ export default function App() {
                 ? "bg-amber-500/10 border-amber-500/30 text-amber-400 hover:bg-amber-500/20 active:bg-amber-500/30 shadow-amber-950/20"
                 : "bg-emerald-500/10 border-emerald-500/30 text-emerald-800 hover:bg-emerald-500/20 active:bg-emerald-500/30 shadow-emerald-150"
             }`}
-            title="Instal Aplikasi Mimbar Digital Pro"
+            title="Instal Aplikasi mimbar pro"
           >
             <Download className="h-4 w-4 animate-bounce" />
             <span className="hidden xs:inline">Instal Aplikasi</span>
@@ -208,14 +208,14 @@ export default function App() {
             {/* Real generated logo image with pristine rounded squircle look */}
             <img 
               src={brandLogo}
-              alt="Mimbar Digital Pro Logo" 
+              alt="mimbar pro Logo" 
               referrerPolicy="no-referrer"
               className="h-20 w-20 rounded-[22px] shadow-2xl border border-amber-500/40 object-cover relative z-10 transition-transform duration-500 hover:scale-110 cursor-pointer"
             />
           </div>
 
           <h1 className={`text-3xl sm:text-4xl font-serif font-black tracking-widest ${isDarkMode ? "animate-gold-text" : "animate-gold-text-light"}`}>
-            MIMBAR DIGITAL PRO
+            MIMBAR PRO
           </h1>
           
           <div className="h-[2px] w-24 bg-gradient-to-r from-transparent via-amber-500 to-transparent my-2" />
@@ -263,7 +263,7 @@ export default function App() {
 
                 <div className="flex items-center gap-2 text-amber-400 uppercase tracking-widest text-xs font-mono font-bold mb-3">
                   <Flame className="h-4 w-4 text-amber-500 animate-pulse" />
-                  Selamat Datang di Mimbar Digital Pro
+                  Selamat Datang di mimbar pro
                 </div>
 
                 <h2 className={`text-2xl sm:text-3xl font-serif font-semibold leading-snug ${isDarkMode ? 'text-emerald-100' : 'text-emerald-950'}`}>
@@ -271,7 +271,7 @@ export default function App() {
                 </h2>
 
                 <p className={`${isDarkMode ? 'text-emerald-400/90' : 'text-zinc-600'} text-sm mt-4 leading-relaxed font-sans text-justify`}>
-                  Mimbar Digital Pro dirancang khusus untuk para asatid, pengurus masjid, instansi Islami, serta umat muslim dalam menyusun naskah yang berbobot, beradab, dan bernuansa mulia. Sistem AI kami memilah rujukan dalil yang disepakati (shahih) dan menentang faham ekstremis serta mengedepankan corak manhaj moderat Ahlussunnah wal Jama'ah.
+                  mimbar pro dirancang khusus untuk para asatid, pengurus masjid, instansi Islami, serta umat muslim dalam menyusun naskah yang berbobot, beradab, dan bernuansa mulia. Sistem AI kami memilah rujukan dalil yang disepakati (shahih) dan menentang faham ekstremis serta mengedepankan corak manhaj moderat Ahlussunnah wal Jama'ah.
                 </p>
 
                 <div className={`h-px my-6 ${isDarkMode ? 'bg-emerald-900/45' : 'bg-emerald-100/80'}`} />
@@ -429,11 +429,11 @@ export default function App() {
             <div className="flex items-center gap-4 mb-5 p-3 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
               <img 
                 src={brandLogo} 
-                alt="Mimbar Digital Pro Logo" 
+                alt="mimbar pro Logo" 
                 className="h-14 w-14 rounded-[14px] border border-amber-500/30 object-cover"
               />
               <div>
-                <h4 className="font-bold text-sm font-serif">MIMBAR DIGITAL PRO</h4>
+                <h4 className="font-bold text-sm font-serif">MIMBAR PRO</h4>
                 <p className="text-xs text-emerald-500 font-medium">Khutbah &amp; Orasi Multilingual</p>
               </div>
             </div>

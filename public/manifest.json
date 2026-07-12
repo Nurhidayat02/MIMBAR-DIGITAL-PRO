@@ -1,7 +1,7 @@
 {
-  "id": "mimbar-digital-pro-pwa",
-  "name": "Mimbar Digital Pro",
-  "short_name": "Mimbar Digital Pro",
+  "id": "mimbar-pro-pwa",
+  "name": "mimbar pro",
+  "short_name": "mimbar pro",
   "description": "Platform pembuat naskah Khutbah, Ceramah, Tausyiah, Sambutan, dan MC dengan dukungan Bahasa Multilingual, validasi rukun khutbah, dalil shahih bermadzhab, dan teleprompter otomatis.",
   "start_url": "/",
   "display": "standalone",

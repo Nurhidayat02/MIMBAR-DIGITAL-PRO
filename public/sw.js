@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mimbar-digital-pro-v9';
+const CACHE_NAME = 'mimbar-pro-v13';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
