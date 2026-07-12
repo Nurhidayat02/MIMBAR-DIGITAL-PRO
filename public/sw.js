@@ -1,11 +1,10 @@
-const CACHE_NAME = 'mimbar-digital-pro-v15';
+const CACHE_NAME = 'mimbar-digital-pro-v16';
 const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
-  '/manifest.json',
-  '/mimbar_logo_32_v15.png',
-  '/mimbar_logo_192_v15.png',
-  '/mimbar_logo_512_v15.png'
+  '/mimbar_logo_32_v16.png',
+  '/mimbar_logo_192_v16.png',
+  '/mimbar_logo_512_v16.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -38,6 +37,12 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   // Only intercept HTTP/HTTPS requests
   if (!event.request.url.startsWith('http')) return;
+
+  // Bypass service worker caching entirely for manifest.json and sw.js to prevent stale PWA config
+  if (event.request.url.includes('manifest.json') || event.request.url.includes('sw.js')) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
