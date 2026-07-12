@@ -292,7 +292,7 @@ export default function SpeechViewer({
   <div class="toolbar-print">
     <div class="toolbar-title">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 9V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5"/><rect x="6" y="14" width="12" height="8" rx="1"/></svg>
-      <span style="margin-left: 8px;">MIMBAR PRO • HALAMAN PRATINJAU CETAK</span>
+      <span style="margin-left: 8px;">MIMBAR DIGITAL PRO • HALAMAN PRATINJAU CETAK</span>
     </div>
     <div style="display: flex; align-items: center; gap: 15px;">
       <span class="toolbar-info">Perkiraan: ${speech.estimatedDuration}</span>
@@ -303,7 +303,7 @@ export default function SpeechViewer({
   <div class="paper-sheet">
     <div class="script-header">
       <h1 class="script-title">${editedTitle}</h1>
-      <div class="script-meta">Perkiraan Durasi Membaca: ${speech.estimatedDuration} | Diolah Menggunakan mimbar pro</div>
+      <div class="script-meta">Perkiraan Durasi Membaca: ${speech.estimatedDuration} | Diolah Menggunakan MIMBAR DIGITAL PRO</div>
     </div>
     ${formattedHtml}
   </div>
@@ -414,7 +414,7 @@ export default function SpeechViewer({
       <body dir="ltr">
         <h1 dir="ltr" style="text-align: center;">${editedTitle}</h1>
         <div dir="ltr" style="text-align: center; margin-bottom: 20px; font-style: italic; color: #555;">
-          Perkiraan Durasi: ${speech.estimatedDuration || "12 Menit"} | Diolah dari mimbar pro
+          Perkiraan Durasi: ${speech.estimatedDuration || "12 Menit"} | Diolah dari MIMBAR DIGITAL PRO
         </div>
         <hr style="border: 0; border-top: 1px double #0d5c3a; margin-bottom: 30px;" />
         ${formattedHtml}
