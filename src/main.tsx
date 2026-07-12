@@ -8,7 +8,7 @@ try {
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       try {
-        navigator.serviceWorker.register('/sw_v18.js')
+        navigator.serviceWorker.register('/sw_v19.js')
           .then((reg) => {
             console.log('MIMBAR DIGITAL PRO Service Worker registered with scope: ', reg.scope);
           })
