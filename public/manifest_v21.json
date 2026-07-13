@@ -1,9 +1,9 @@
 {
-  "id": "mimbar-digital-pro-pwa-v20",
+  "id": "mimbar-digital-pro-pwa-v21",
   "name": "MIMBAR DIGITAL PRO",
   "short_name": "MIMBAR DIGITAL PRO",
   "description": "Platform pembuat naskah Khutbah, Ceramah, Tausyiah, Sambutan, dan MC dengan dukungan Bahasa Multilingual, validasi rukun khutbah, dalil shahih bermadzhab, dan teleprompter otomatis.",
-  "start_url": "/?v=20",
+  "start_url": "/?v=21",
   "scope": "/",
   "display": "standalone",
   "background_color": "#01231a",
@@ -11,25 +11,25 @@
   "orientation": "any",
   "icons": [
     {
-      "src": "/mimbar_logo_192_v20.png",
+      "src": "/mimbar_logo_192_v21.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "any"
     },
     {
-      "src": "/mimbar_logo_192_v20.png",
+      "src": "/mimbar_logo_192_v21.png",
       "type": "image/png",
       "sizes": "192x192",
       "purpose": "maskable"
     },
     {
-      "src": "/mimbar_logo_512_v20.png",
+      "src": "/mimbar_logo_512_v21.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "any"
     },
     {
-      "src": "/mimbar_logo_512_v20.png",
+      "src": "/mimbar_logo_512_v21.png",
       "type": "image/png",
       "sizes": "512x512",
       "purpose": "maskable"
