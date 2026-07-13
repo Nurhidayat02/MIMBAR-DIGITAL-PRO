@@ -22,6 +22,25 @@ app.use((req, res, next) => {
   next();
 });
 
+// Rescue fallback routes for previously installed PWA clients requesting old versioned manifests/service workers
+app.get("/manifest*.json", (req, res) => {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
+  res.setHeader("Expires", "0");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Content-Type", "application/json; charset=UTF-8");
+  const filePath = path.join(process.cwd(), process.env.NODE_ENV === "production" ? "dist" : "public", "manifest.json");
+  res.sendFile(filePath);
+});
+
+app.get("/sw*.js", (req, res) => {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0");
+  res.setHeader("Expires", "0");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Content-Type", "application/javascript; charset=UTF-8");
+  const filePath = path.join(process.cwd(), process.env.NODE_ENV === "production" ? "dist" : "public", "sw.js");
+  res.sendFile(filePath);
+});
+
 app.use(express.static("public"));
 
 // Lazy Initialize Gemini Client to avoid module-load crashes if key is initially missing

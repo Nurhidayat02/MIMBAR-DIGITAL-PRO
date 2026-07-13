@@ -207,7 +207,7 @@ export default function App() {
             <div className="h-24 w-24 rounded-full border border-dashed border-amber-500/20 absolute animate-[spin_100s_linear_infinite]" />
             {/* Real generated logo image with pristine rounded squircle look */}
             <img 
-              src={`${brandLogo}?v=22`}
+              src={`${brandLogo}?v=23`}
               alt="MIMBAR DIGITAL PRO Logo" 
               referrerPolicy="no-referrer"
               className="h-20 w-20 rounded-[22px] shadow-2xl border border-amber-500/40 object-cover relative z-10 transition-transform duration-500 hover:scale-110 cursor-pointer"
@@ -429,7 +429,7 @@ export default function App() {
             {/* App Icon and Description */}
             <div className="flex items-center gap-4 mb-5 p-3 rounded-2xl bg-emerald-500/5 border border-emerald-500/10">
               <img 
-                src={`${brandLogo}?v=22`} 
+                src={`${brandLogo}?v=23`} 
                 alt="MIMBAR DIGITAL PRO Logo" 
                 className="h-14 w-14 rounded-[14px] border border-amber-500/30 object-cover"
               />
